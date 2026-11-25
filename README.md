@@ -1,29 +1,30 @@
 # ErgunDPI v2.2
 
-Windows için C++17 ve WinDivert 2.2 tabanlı bağlantı aracı. Seçili uygulamalarda (Discord ve Roblox) bağlantı başlangıcındaki paketleri işleyerek erişim ve kararlılık sorunlarını azaltmayı hedefler.
+Windows için C++17 ve WinDivert 2.2 ile geliştirilmiş, Discord ve Roblox odaklı bağlantı aracı.
 
 ---
 
-## Ne İşe Yarar ve Neden Tercih Edilir?
+## Neden GoodbyeDPI Yerine ErgunDPI?
 
-Teknik terimlere girmeden özetlemek gerekirse; bazı araçlar tüm internet trafiğini kendi üzerinden geçirir. ErgunDPI ise yalnızca seçtiğin uygulamaların bağlantı açılışını ele alır, geri kalan her şeye dokunmaz:
+Teknik ayrıntılara girmeden özetlemek gerekirse; bazı araçlar tüm sistem trafiğini işlerken ErgunDPI yalnızca seçili uygulamaların (Discord ve Roblox) ilk bağlantı paketlerine odaklanır:
 
-* **İnternet hızını düşürmez:** Tarayıcıda dosya indirirken, video izlerken veya diğer uygulamalarda hattının hızını kesmez; genel ortalamada tüm trafiği yoran çözümlere kıyasla yaklaşık **%25–%35 daha verimli** bir kullanım deneyimi sunar.
-* **Oyunlarda takılma/dalgalanma yapmaz:** CS2 gibi oyunların veri akışına müdahale etmez ve arka planda gereksiz paket yükü oluşturmadığı için ping/jitter sıçramalarını tetiklemez.
-* **Hafiftir ve yormaz:** Sadece gerekli anlarda devreye girer; pencereyi küçülttüğünde sağ altta (sistem tepsisinde) sessizce çalışır, pencere arka plandayken ekran kartını boş yere yormaz.
-* **İstediğini seçebilirsin:** Discord ve Roblox seçeneklerini ayrı ayrı açıp kapatabilirsin.
+* **Genel ortalamada ~%25–%35 daha yüksek verimlilik/akıcılık:** Tüm internet trafiğini kullanıcı alanından geçirmeden yalnızca hedef bağlantılarda işlem yaptığı için tarayıcı hızını, indirmeleri ve genel sistem akıcılığını korur.
+* **Oyunlarda daha kararlı deneyim:** CS2 gibi oyunların UDP paket akışına dokunmaz ve arka planda gereksiz paket yükü oluşturmadığı için ağ dalgalanmalarını (net jitter) artırmaz.
+* **UDP 443 / QUIC engeli olmadan çalışma:** Toplu port/protokol engellemek yerine seçili hedeflerde bağlantı başlangıcını bölmeye odaklanır.
+* **Düşük sistem ve GPU tüketimi:** Simge durumuna küçültüldüğünde sistem tepsisinde çalışır; pencere arka plandayken gereksiz 60 FPS arayüz çizimini durdurur.
+* **Hedef seçimi:** Discord ve Roblox seçeneklerini bağımsız olarak açıp kapatabilirsin.
 
 ## Kurulum
 
 1. **Releases** sekmesinden son sürüm `.zip` dosyasını indir ve bir klasöre çıkar.
 2. `Kurulum.bat` dosyasına sağ tıklayıp **Yönetici olarak çalıştır** de.
-3. Kurulum dosyaları `C:\ErgunDPI` klasörüne kopyalar, Cloudflare DNS (DoH) ayarını uygular, IPv6'yı kapatır, oturum açılış görevi oluşturur ve masaüstüne kısayol bırakır.
+3. Dosyalar `C:\ErgunDPI` klasörüne kopyalanır, Cloudflare DNS (DoH) ayarlanır, IPv6 kapatılır, başlangıç görevi oluşturulur ve masaüstüne kısayol eklenir.
 
-> **Güvenlik yazılımı uyarısı:** Ağ sürücüsü (`WinDivert64.sys`) kullanan araçlar Windows Defender veya diğer antivirüsler tarafından yanlış alarm verebilir. Gerekirse `C:\ErgunDPI` ve çalışma klasörünü dışlamalara ekleyebilirsin.
+> **Güvenlik yazılımı notu:** Çekirdek sürücüsü (`WinDivert64.sys`) kullanan araçlar Windows Defender veya diğer güvenlik yazılımlarında yanlış pozitif uyarı üretebilir. Gerekirse `C:\ErgunDPI` ve çalışma klasörünü dışlamalara ekleyebilirsin.
 
 ## Kaldırma
 
-`Kaldir.bat` dosyasına sağ tıklayıp **Yönetici olarak çalıştır** dediğinde uygulama kapatılır, sürücü servisleri kaldırılır, `C:\ErgunDPI` klasörü, başlangıç görevi ve kısayol silinir, DNS ve IPv6 ayarları eski haline döndürülür.
+`Kaldir.bat` dosyasına sağ tıklayıp **Yönetici olarak çalıştır** dediğinde uygulama durdurulur, sürücü servisleri silinir, `C:\ErgunDPI` klasörü, başlangıç görevi ve masaüstü kısayolu kaldırılır, DNS ve IPv6 ayarları varsayılana döndürülür.
 
 ## Derleme (MinGW-w64)
 
@@ -34,28 +35,29 @@ g++ -O3 -std=c++17 -march=x86-64-v2 -flto -fno-exceptions -fno-rtti -s -municode
 
 ## Sorumluluk Reddi
 
-Bu proje yalnızca eğitim, test ve bağlantı davranışını inceleme amacıyla paylaşılmıştır. Yazılımın indirilmesi, kurulması veya kullanılması sonucunda ortaya çıkabilecek ağ kesintileri, bağlantı hataları, hesap veya hizmet kısıtlamaları, güvenlik yazılımı engellemeleri ya da sistem/ağ ayarlarındaki değişikliklerden doğacak tüm sorumluluk kullanıcıya aittir. Bu aracı kullanırken bulunduğunuz ülkenin yürürlükteki yasalarına ve ilgili platformların kullanım kurallarına uymak kullanıcının yükümlülüğündedir. Proje "olduğu gibi" (as-is) sunulmaktadır ve kesintisiz çalışacağına dair garanti verilmez.
+Bu yazılım yalnızca eğitim, test ve bağlantı davranışını inceleme amacıyla sunulmaktadır. Yazılımın indirilmesi, kurulması veya kullanılması sonucunda ortaya çıkabilecek ağ kesintileri, bağlantı hataları, hesap veya hizmet kısıtlamaları, güvenlik yazılımı uyarıları ya da sistem ve ağ yapılandırma değişikliklerinden doğacak tüm sorumluluk kullanıcıya aittir. Bu aracın kullanımında yürürlükteki yerel yasalara ve ilgili hizmetlerin kullanım koşullarına uymak kullanıcının yükümlülüğündedir. Yazılım "olduğu gibi" (as-is) sunulmaktadır ve kesintisiz çalışacağına dair garanti verilmez.
 
 ---
 
 # ErgunDPI v2.2 (English)
 
-A C++17 and WinDivert 2.2 based utility for Windows designed to help with connection stability and access issues on selected targets (Discord and Roblox).
+A C++17 and WinDivert 2.2 based network utility for Windows focused on Discord and Roblox.
 
-## What It Does & Why Use It
+## Why ErgunDPI Over GoodbyeDPI?
 
-In plain terms, some tools route and inspect traffic across your whole system. ErgunDPI focuses only on initial connection packets for selected targets and leaves everything else untouched:
+In simple terms, while some tools inspect or route traffic broadly across the system, ErgunDPI targets only the initial connection packets of selected apps (Discord and Roblox):
 
-* **Keeps speeds intact:** Does not interfere with general browsing or downloads, offering roughly **25–35% better overall efficiency/responsiveness** compared to approaches that push all traffic through extra processing.
-* **Friendly to online games:** Avoids interfering with game traffic (such as CS2) and keeps background overhead low so it does not add network jitter.
-* **Lightweight behavior:** Minimizes to the system tray and pauses unnecessary 60 FPS UI redraws when the window is not in focus.
-* **Per-target toggles:** Discord and Roblox can be toggled independently.
+* **~25–35% better overall efficiency/responsiveness on average:** Leaves general browsing, downloads, and unrelated traffic untouched instead of pushing everything through extra processing.
+* **Game-friendly stability:** Does not interfere with game traffic (such as CS2) and avoids unnecessary background packet overhead that can worsen network jitter.
+* **No broad UDP 443 / QUIC blocking:** Focuses on splitting initial handshake packets for selected targets rather than broadly blocking UDP 443.
+* **Low overhead & focus awareness:** Minimizes to the system tray and stops unnecessary 60 FPS UI redraws when the window is not in focus.
+* **Independent toggles:** Discord and Roblox can be toggled separately.
 
 ## Installation
 
 1. Download the latest `.zip` from **Releases** and extract it to a folder.
 2. Right-click `Kurulum.bat` and select **Run as administrator**.
-3. The script copies files to `C:\ErgunDPI`, configures Cloudflare DNS (DoH), disables IPv6, creates a logon task, and places a shortcut on the Desktop.
+3. Files are copied to `C:\ErgunDPI`, Cloudflare DNS (DoH) is configured, IPv6 is disabled, a logon task is created, and a Desktop shortcut is added.
 
 > **Antivirus note:** Kernel packet drivers (`WinDivert64.sys`) can trigger false positives in security software. Add `C:\ErgunDPI` and your working folder to exclusions if needed.
 
